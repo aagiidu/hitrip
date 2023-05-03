@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:line_icons/line_icons.dart';
 
 import '../data/constants.dart';
@@ -69,7 +68,7 @@ class ListCard extends StatelessWidget {
                           Row(
                             children: [
                               const Icon(
-                                Feather.map_pin,
+                                Icons.pin,
                                 size: 12,
                                 color: Colors.grey,
                               ),
@@ -168,7 +167,7 @@ class ListCard1 extends StatelessWidget {
                         Row(
                           children: [
                             const Icon(
-                              Feather.map_pin,
+                              Icons.pin,
                               size: 12,
                               color: Colors.grey,
                             ),
@@ -326,7 +325,7 @@ class UzmerCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     const Icon(
-                                      Feather.map_pin,
+                                      Icons.pin,
                                       size: 12,
                                       color: Colors.grey,
                                     ),
@@ -460,7 +459,7 @@ class ZamDaguuhCard extends StatelessWidget {
                                 Row(
                                   children: [
                                     const Icon(
-                                      Feather.map_pin,
+                                      Icons.pin,
                                       size: 12,
                                       color: Colors.grey,
                                     ),

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import 'package:provider/provider.dart';
 import '../blocs/search_block.dart';
 import '../models/place.dart';
@@ -109,7 +108,7 @@ class SuggestionsUI extends StatelessWidget {
       child: sb.recentSearchData.isEmpty
           // ignore: prefer_const_constructors
           ? EmptyPage(
-              icon: Feather.search,
+              icon: Icons.search,
               message: 'Газрын нэрээр хайх',
               message1: "Одоогоор хайлт хийгээгүй байна",
             )
@@ -152,7 +151,7 @@ class AfterSearchUI extends StatelessWidget {
     return Expanded(
         child: result.isEmpty
             ? const EmptyPage(
-                icon: Feather.clipboard,
+                icon: Icons.search_off,
                 message: 'Хайлтаар үр дүн олдсонгүй',
                 message1: "Дахин оролдож үзнэ үү",
               )

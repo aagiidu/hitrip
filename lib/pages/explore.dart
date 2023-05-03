@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-import '../config/config.dart';
 import '../widgets/featured_icons.dart';
 import '../widgets/header.dart';
 

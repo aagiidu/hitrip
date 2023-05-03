@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-
 import '../config/config.dart';
 import '../pages/search.dart';
 
@@ -83,7 +81,7 @@ class Header extends StatelessWidget {
                       child: Row(
                         children: <Widget>[
                           Icon(
-                            Feather.search,
+                            Icons.search,
                             color: Colors.grey[600],
                             size: 20,
                           ),

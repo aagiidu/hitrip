@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import '../models/trip.dart';
 import '../pages/trip_detail.dart';
 import '../utils/next_screen.dart';
@@ -63,7 +62,7 @@ class TripCard extends StatelessWidget {
                           Row(
                             children: [
                               const Icon(
-                                Feather.map_pin,
+                                Icons.pin,
                                 size: 12,
                                 color: Colors.grey,
                               ),

@@ -182,15 +182,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.0"
-  flutter_icons:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "0831af6f0f239d20fb9578612d7a893e2a53d044"
-      url: "https://github.com/adarsh-technocrat/flutter-icons"
-    source: git
-    version: "1.1.1-nullsafety.0"
   flutter_launcher_icons:
     dependency: "direct main"
     description:
@@ -388,12 +379,11 @@ packages:
   md2_tab_indicator:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: "1097deb4f4018c408fd4745711efb8f0ea9044e7"
-      url: "https://github.com/westdabestdb/md2_tab_indicator"
-    source: git
-    version: "2.0.0"
+      name: md2_tab_indicator
+      sha256: "69dea9ee4027ab102581d49d89d9fce8f56747bf9a2aece4485423d51152a52f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   meta:
     dependency: transitive
     description:

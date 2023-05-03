@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_icons/flutter_icons.dart';
 import '../data/constants.dart';
 import '../models/trip.dart';
 import '../pages/trip_detail.dart';
@@ -62,7 +61,7 @@ class TripImageCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Feather.map_pin, size: 15, color: Colors.grey[400]),
+                      Icon(Icons.pin, size: 15, color: Colors.grey[400]),
                       Expanded(
                         child: Text(
                           'Аялалын урт: ${d.urt!}',

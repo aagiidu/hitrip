@@ -14,12 +14,12 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_maps_flutter: ^2.2.5
   animated_bottom_navigation_bar: ^1.2.0
-  flutter_icons:
-    git:
-      url: https://github.com/adarsh-technocrat/flutter-icons
-  md2_tab_indicator:
-    git:
-      url: https://github.com/westdabestdb/md2_tab_indicator
+  # flutter_icons:
+  #   git:
+  #     url: https://github.com/adarsh-technocrat/flutter-icons
+  # md2_tab_indicator:
+  #   git:
+  #     url: https://github.com/westdabestdb/md2_tab_indicator
   url_launcher: ^6.1.10
   # fluttertoast: ^8.2.1
   cached_network_image: ^3.2.3
@@ -32,6 +32,7 @@ dependencies:
   flutter_launcher_icons: ^0.13.0
   shared_preferences: ^2.1.0
   provider: ^6.0.5
+  md2_tab_indicator: ^1.0.2
 
 dev_dependencies:
   flutter_test:

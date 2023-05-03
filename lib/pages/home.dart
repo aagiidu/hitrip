@@ -1,8 +1,6 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_icons/flutter_icons.dart';
-
 import '../services/app_services.dart';
 import '../utils/snackbar.dart';
 import 'explore.dart';
@@ -22,10 +20,10 @@ class _HomePageState extends State<HomePage> {
       GlobalKey<ScaffoldMessengerState>();
 
   List<IconData> iconList = [
-    Feather.home,
-    Feather.list,
-    Feather.grid,
-    Feather.bookmark
+    Icons.home,
+    Icons.list,
+    Icons.grid_3x3,
+    Icons.bookmark
   ];
 
   final List<String> _labels = ['Эхлэл', 'Аялалууд', 'Мэдээ', 'Зар'];

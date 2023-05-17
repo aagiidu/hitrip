@@ -12,6 +12,7 @@ class Config {
       'https://firebasestorage.googleapis.com/v0/b/hitrip-admin.appspot.com/o/pages%2Fprivacy_policy.html?alt=media&token=258c2cd0-6d4c-4aa0-a37e-32ec251c6a75';
   final String iOSAppId = '000000';
 
+  final String apiUrl = 'https://api.hitrip.mn';
   final String yourWebsiteUrl = 'http://www.ahatour.mn';
   final String facebookPageUrl = 'https://www.facebook.com/AHAtourTravelAgency';
   final String youtubeChannelUrl = 'https://www.youtube.com';

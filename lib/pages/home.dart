@@ -1,6 +1,7 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hitrip/pages/zarlist.dart';
 import '../services/app_services.dart';
 import '../utils/snackbar.dart';
 import 'explore.dart';
@@ -98,7 +99,7 @@ class _HomePageState extends State<HomePage> {
             const Explore(),
             TripsPage(),
             Container(),
-            Container(),
+            const ZarList(),
           ],
         ),
       ),

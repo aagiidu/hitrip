@@ -1,10 +1,31 @@
 import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart' as urlLauncher;
-
 import '../config/config.dart';
-import '../utils/toast.dart';
 
 class AppService {
+  final dio = Dio();
+  final String apiUrl = Config().apiUrl;
+
+  Future postReq(String url, Map data) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString('token');
+    print('####### postReq token #######');
+    print(token);
+    dio.options.headers['Authorization'] = 'Bearer $token';
+    return await dio.post('$apiUrl/$url', data: data);
+  }
+
+  Future getReq(String url) async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    String? token = sp.getString('token');
+    print('####### getReq token #######');
+    print(token);
+    dio.options.headers['Authorization'] = 'Bearer $token';
+    return await dio.get('$apiUrl/$url');
+  }
+
   Future<bool?> checkInternet() async {
     bool? internet;
     try {

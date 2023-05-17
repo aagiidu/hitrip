@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'blocs/search_block.dart';
+import 'blocs/sign_in_block.dart';
 import 'config/config.dart';
 import 'pages/splash.dart';
 
@@ -20,6 +21,7 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<SearchBloc>(create: (context) => SearchBloc()),
+        ChangeNotifierProvider<SignInBloc>(create: (context) => SignInBloc()),
       ],
       child: MaterialApp(
           scaffoldMessengerKey: scaffoldMessengerKey,

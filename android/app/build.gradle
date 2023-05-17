@@ -71,13 +71,13 @@ android {
 
     buildTypes {
         release {
-           signingConfig signingConfigs.debug
-       }
+           signingConfig signingConfigs.debug // daraa n release bolgoj solih!
+        }
 
-       debug {
-           minifyEnabled false
-           shrinkResources false
-       }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
     }
 }
 

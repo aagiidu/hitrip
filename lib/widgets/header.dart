@@ -1,13 +1,95 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../blocs/sign_in_block.dart';
 import '../config/config.dart';
 import '../pages/search.dart';
 
-class Header extends StatelessWidget {
+class Header extends StatefulWidget {
   final bool showSearch;
   const Header({super.key, this.showSearch = true});
 
   @override
+  State<Header> createState() => _HeaderState();
+}
+
+class _HeaderState extends State<Header> {
+  late SignInBloc sb;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  facebookSignIn() async {
+    await sb.signInwithFacebook().then((_) {
+      print('SignInComplete');
+    });
+  }
+
+  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
+    foregroundColor: Colors.black87,
+    minimumSize: const Size(88, 36),
+    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(2.0)),
+    ),
+  );
+
+  Future<Future> _showConfirmDialog(BuildContext context) async {
+    return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return sb.isSignedIn
+            ? AlertDialog(
+                /* title: const Text("Confirm"), */
+                content: const Text("Та гарах гэж байна уу?"),
+                actions: <Widget>[
+                  TextButton(
+                    style: flatButtonStyle,
+                    child: const Text("Болих"),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  TextButton(
+                    style: flatButtonStyle,
+                    child: const Text("Гарах"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                      sb.userSignout();
+                    },
+                  ),
+                ],
+              )
+            : AlertDialog(
+                /* title: const Text("Confirm"), */
+                content: const Text("Facebook-ээр нэвтрэх үү?"),
+                actions: <Widget>[
+                  TextButton(
+                    style: flatButtonStyle,
+                    child: const Text("Болих"),
+                    onPressed: () {
+                      Navigator.of(context).pop(false);
+                    },
+                  ),
+                  TextButton(
+                    style: flatButtonStyle,
+                    child: const Text("Нэвтрэх"),
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                      facebookSignIn();
+                    },
+                  ),
+                ],
+              );
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    sb = Provider.of<SignInBloc>(context);
     return Container(
       color: Colors.white,
       padding: const EdgeInsets.only(left: 15, right: 15, top: 30, bottom: 20),
@@ -39,31 +121,35 @@ class Header extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                /* InkWell(
-                  child:  */
-                Container(
-                  height: 50,
-                  width: 50,
-                  decoration: BoxDecoration(
-                      color: Colors.grey[300],
-                      shape: BoxShape.circle,
-                      image: const DecorationImage(
-                          image: AssetImage('assets/images/icon.png'),
-                          fit: BoxFit.cover)),
-                ),
-                /* onTap: () {
-                    nextScreen(context, ProfilePage());
-                  },
-                ) */
+                InkWell(
+                  onTap: () => _showConfirmDialog(context),
+                  child: sb.isSignedIn && sb.imageUrl != null
+                      ? CircleAvatar(
+                          backgroundImage: NetworkImage(
+                            sb.imageUrl ?? '',
+                          ),
+                          radius: 30,
+                        )
+                      : Container(
+                          height: 50,
+                          width: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.grey[300],
+                              shape: BoxShape.circle,
+                              image: const DecorationImage(
+                                  image: AssetImage('assets/images/icon.png'),
+                                  fit: BoxFit.cover)),
+                        ),
+                )
               ],
             ),
           ),
-          showSearch
+          widget.showSearch
               ? const SizedBox(
                   height: 25,
                 )
               : Container(),
-          showSearch
+          widget.showSearch
               ? InkWell(
                   child: Container(
                     alignment: Alignment.centerLeft,

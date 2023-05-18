@@ -4,6 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../blocs/sign_in_block.dart';
 import '../config/config.dart';
 import '../pages/search.dart';
+import '../utils/confirmFbLoginDialog.dart';
 
 class Header extends StatefulWidget {
   final bool showSearch;
@@ -19,72 +20,9 @@ class _HeaderState extends State<Header> {
   @override
   void initState() {
     super.initState();
-  }
-
-  facebookSignIn() async {
-    await sb.signInwithFacebook().then((_) {
-      print('SignInComplete');
-    });
-  }
-
-  final ButtonStyle flatButtonStyle = TextButton.styleFrom(
-    foregroundColor: Colors.black87,
-    minimumSize: const Size(88, 36),
-    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(2.0)),
-    ),
-  );
-
-  Future<Future> _showConfirmDialog(BuildContext context) async {
-    return showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return sb.isSignedIn
-            ? AlertDialog(
-                /* title: const Text("Confirm"), */
-                content: const Text("Та гарах гэж байна уу?"),
-                actions: <Widget>[
-                  TextButton(
-                    style: flatButtonStyle,
-                    child: const Text("Болих"),
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                    },
-                  ),
-                  TextButton(
-                    style: flatButtonStyle,
-                    child: const Text("Гарах"),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                      sb.userSignout();
-                    },
-                  ),
-                ],
-              )
-            : AlertDialog(
-                /* title: const Text("Confirm"), */
-                content: const Text("Facebook-ээр нэвтрэх үү?"),
-                actions: <Widget>[
-                  TextButton(
-                    style: flatButtonStyle,
-                    child: const Text("Болих"),
-                    onPressed: () {
-                      Navigator.of(context).pop(false);
-                    },
-                  ),
-                  TextButton(
-                    style: flatButtonStyle,
-                    child: const Text("Нэвтрэх"),
-                    onPressed: () {
-                      Navigator.of(context).pop(true);
-                      facebookSignIn();
-                    },
-                  ),
-                ],
-              );
-      },
-    );
+    /* Future.delayed(const Duration(milliseconds: 0)).then((value) {
+      sb.checkSignIn();
+    }); */
   }
 
   @override
@@ -121,8 +59,18 @@ class _HeaderState extends State<Header> {
                   ],
                 ),
                 const Spacer(),
-                InkWell(
-                  onTap: () => _showConfirmDialog(context),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[300],
+                      shape: BoxShape.circle,
+                      image: const DecorationImage(
+                          image: AssetImage('assets/images/icon.png'),
+                          fit: BoxFit.cover)),
+                ),
+                /* InkWell(
+                  onTap: () => showFBConfirmDialog(context, null),
                   child: sb.isSignedIn && sb.imageUrl != null
                       ? CircleAvatar(
                           backgroundImage: NetworkImage(
@@ -140,7 +88,7 @@ class _HeaderState extends State<Header> {
                                   image: AssetImage('assets/images/icon.png'),
                                   fit: BoxFit.cover)),
                         ),
-                )
+                ) */
               ],
             ),
           ),

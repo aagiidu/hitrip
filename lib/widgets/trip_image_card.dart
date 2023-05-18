@@ -61,7 +61,8 @@ class TripImageCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Icon(Icons.pin, size: 15, color: Colors.grey[400]),
+                      Icon(Icons.add_location,
+                          size: 15, color: Colors.grey[400]),
                       Expanded(
                         child: Text(
                           'Аялалын урт: ${d.urt!}',

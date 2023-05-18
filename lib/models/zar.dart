@@ -1,6 +1,5 @@
 class Zar {
   String id;
-  String title;
   String body;
   String name;
   String fbid;
@@ -9,7 +8,6 @@ class Zar {
 
   Zar({
     required this.id,
-    required this.title,
     required this.body,
     required this.name,
     required this.fbid,
@@ -20,7 +18,6 @@ class Zar {
   factory Zar.fromJson(Map<String, dynamic> d) {
     return Zar(
       id: d['_id'],
-      title: d['title'],
       body: d['body'],
       name: d['name'],
       fbid: d['fbid'],

@@ -12,10 +12,10 @@ import '../services/app_services.dart';
 // import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 class SignInBloc extends ChangeNotifier {
-  SignInBloc() {
+  SignInBloc(); /* {
     checkSignIn();
     checkGuestUser();
-  }
+  } */
 
   // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   // final GoogleSignIn _googlSignIn = new GoogleSignIn();
@@ -33,6 +33,9 @@ class SignInBloc extends ChangeNotifier {
   bool _hasError = false;
   bool get hasError => _hasError;
 
+  bool _isAdmin = false;
+  bool get isAdmin => _isAdmin;
+
   String? _errorCode;
   String? get errorCode => _errorCode;
 
@@ -44,6 +47,9 @@ class SignInBloc extends ChangeNotifier {
 
   String? _uid;
   String? get uid => _uid;
+
+  int? _fbid;
+  int? get fbid => _fbid;
 
   String? _email;
   String? get email => _email;
@@ -76,29 +82,21 @@ class SignInBloc extends ChangeNotifier {
   }
 
   Future signInwithFacebook() async {
-    print('### signInwithFacebook starts ###');
     final LoginResult result = await FacebookAuth.instance.login();
     if (result.status == LoginStatus.success) {
-      final userData = await FacebookAuth.instance.getUserData();
-      String name = userData['name'];
-      String email = userData['email'];
-      String uid = userData['id'];
-      Map data = {"name": name, "email": email, "fbid": uid};
+      final fb = await FacebookAuth.instance.getUserData();
+      String name = fb['name'];
+      String email = fb['email'];
+      String uid = fb['id'];
+      Map data = {
+        "name": name,
+        "email": email,
+        "fbid": uid,
+        "image": fb['picture']['data']['url']
+      };
       final response = await AppService().postReq('register/fbuser', data);
       if (response != null && response.data['status'] == 'success') {
-        print('### access response element ###');
-        // print(response.statusCode);
-        print(response.data['data']);
-        print(response.data['token']);
-        // {"status":"success",
-        // "data":{"fbid":10160265385893054,"name":"Altangerel Du","email":"altanguerel@yahoo.com","status":0,"trips":[],"_id":"645b828ad3b56b7059a9183a","__v":0}}
-        _isSignedIn = true;
-        _name = userData['name'];
-        _email = userData['email'];
-        _imageUrl = userData['picture']['data']['url'];
-        _uid = userData['id'];
-        _token = response.data['token'];
-        setSignIn(_token);
+        setSignIn(response.data);
         // final _accessToken = result.accessToken!;
         _hasError = false;
       } else {
@@ -139,26 +137,39 @@ class SignInBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future setSignIn(String? token) async {
+  Future setSignIn(data) async {
+    print('############ ++ setSignIn ++ ###########');
+    print(data['data']);
+    print(data['token']);
     final SharedPreferences sp = await SharedPreferences.getInstance();
-    print('######### Setting TOKEN ########');
-    print(token);
-    if (token != null) {
-      sp.setString('token', token);
+    if (data['token'] != null) {
+      _isSignedIn = true;
+      _name = data['data']['name'];
+      _email = data['data']['email'];
+      _imageUrl = data['data']['image'];
+      _uid = data['data']['_id'];
+      _token = data['token'];
+      _fbid = data['data']['fbid'];
+      _isAdmin = data['data']['status'] == 2;
+      sp.setString('token', data['token']);
       sp.setBool('signed_in', true);
       _isSignedIn = true;
     } else {
-      sp.setString('token', '');
-      sp.setBool('signed_in', false);
-      _isSignedIn = false;
+      userSignout();
     }
     notifyListeners();
   }
 
   void checkSignIn() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    _token = sp.getString('token');
-    _isSignedIn = sp.getBool('signed_in') ?? false;
+    final response = await AppService().getReq('user/data');
+    print('############ checkSignIn ###########');
+    print(response.data);
+    print(response.data['status']);
+    if (response != null && response.data['status'] == 'success') {
+      setSignIn(response.data);
+    } else {
+      userSignout();
+    }
     notifyListeners();
   }
 
@@ -167,11 +178,6 @@ class SignInBloc extends ChangeNotifier {
     _isSignedIn = false;
     _guestUser = false;
     notifyListeners();
-    /* if (_signInProvider == 'facebook') {
-      return true;
-    } else {
-      return true;
-    } */
   }
 
   Future afterUserSignOut() async {

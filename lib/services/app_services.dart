@@ -12,6 +12,7 @@ class AppService {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString('token');
     print('####### postReq token #######');
+    print('$apiUrl/$url');
     print(token);
     dio.options.headers['Authorization'] = 'Bearer $token';
     return await dio.post('$apiUrl/$url', data: data);
@@ -21,6 +22,7 @@ class AppService {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     String? token = sp.getString('token');
     print('####### getReq token #######');
+    print('$apiUrl/$url');
     print(token);
     dio.options.headers['Authorization'] = 'Bearer $token';
     return await dio.get('$apiUrl/$url');

@@ -64,7 +64,8 @@ class FeaturedIcons extends StatelessWidget {
                                   fontSize: 15),
                             ),
                           ])),
-                  onTap: () => nextScreen(context, TripsPage()),
+                  onTap: () =>
+                      nextScreen(context, TripsPage()), // bloc-oor damjuulah!
                 ),
                 InkWell(
                   onTap: () => nextScreen(context, Places()),

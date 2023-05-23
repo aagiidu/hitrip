@@ -8,6 +8,7 @@ import '../utils/confirmFbLoginDialog.dart';
 
 class Header extends StatefulWidget {
   final bool showSearch;
+
   const Header({super.key, this.showSearch = true});
 
   @override

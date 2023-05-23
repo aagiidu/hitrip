@@ -3,26 +3,14 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
-// import 'package:intl/intl.dart';
-// import 'package:package_info/package_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../services/app_services.dart';
-// import 'package:the_apple_sign_in/the_apple_sign_in.dart';
 
 class SignInBloc extends ChangeNotifier {
-  SignInBloc(); /* {
+  SignInBloc() {
     checkSignIn();
-    checkGuestUser();
-  } */
-
-  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  // final GoogleSignIn _googlSignIn = new GoogleSignIn();
-  // final FacebookAuth _fbAuth = FacebookAuth.instance;
-  final String defaultUserImageUrl =
-      'https://www.seekpng.com/png/detail/115-1150053_avatar-png-transparent-png-royalty-free-default-user.png';
-  // final FirebaseFirestore firestore = FirebaseFirestore.instance;
+    // checkGuestUser();
+  }
 
   bool _guestUser = false;
   bool get guestUser => _guestUser;
@@ -68,7 +56,10 @@ class SignInBloc extends ChangeNotifier {
 
   String? timestamp;
 
-  Future validateSerial(String s) async {
+  Map<String, bool> _enabledTrips = {};
+  Map<String, bool> get enabledTrips => _enabledTrips;
+
+  /* Future validateSerial(String s) async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _serial = s;
     await sp.setString('serial', s);
@@ -79,7 +70,7 @@ class SignInBloc extends ChangeNotifier {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _serial = sp.getString('serial');
     notifyListeners();
-  }
+  } */
 
   Future signInwithFacebook() async {
     final LoginResult result = await FacebookAuth.instance.login();
@@ -104,43 +95,11 @@ class SignInBloc extends ChangeNotifier {
       }
       notifyListeners();
     } else {
-      print(result.status);
       print(result.message);
     }
-
-    // User currentUser;
-  }
-
-  Future<bool> checkUserExists() async {
-    if (true) {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  /* Future getJoiningDate() async {
-    DateTime now = DateTime.now();
-    String _date = DateFormat('yyyy-MM-dd').format(now);
-    _joiningDate = _date;
-    notifyListeners();
-  } */
-
-  /* Future saveDataToSP() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.setString('serial', _name!);
-  } */
-
-  Future getDataFromSp() async {
-    final SharedPreferences sp = await SharedPreferences.getInstance();
-    _serial = sp.getString('serial');
-    notifyListeners();
   }
 
   Future setSignIn(data) async {
-    print('############ ++ setSignIn ++ ###########');
-    print(data['data']);
-    print(data['token']);
     final SharedPreferences sp = await SharedPreferences.getInstance();
     if (data['token'] != null) {
       _isSignedIn = true;
@@ -161,15 +120,20 @@ class SignInBloc extends ChangeNotifier {
   }
 
   void checkSignIn() async {
-    final response = await AppService().getReq('user/data');
-    print('############ checkSignIn ###########');
-    print(response.data);
-    print(response.data['status']);
-    if (response != null && response.data['status'] == 'success') {
-      setSignIn(response.data);
-    } else {
-      userSignout();
+    await setEnabledTrips();
+    // await getEnabledTrips();
+    try {
+      final response = await AppService().getReq('user/data');
+      if (response != null && response.data['status'] == 'success') {
+        setSignIn(response.data);
+      } else {
+        userSignout();
+      }
+    } catch (e) {
+      print('checkSignIn catch');
+      print(e);
     }
+
     notifyListeners();
   }
 
@@ -206,7 +170,8 @@ class SignInBloc extends ChangeNotifier {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     _isSignedIn = false;
     _token = null;
-    sp.clear();
+    sp.setString('token', '');
+    sp.setBool('signed_in', false);
   }
 
   Future guestSignout() async {
@@ -214,5 +179,36 @@ class SignInBloc extends ChangeNotifier {
     await sp.setBool('guest_user', false);
     _guestUser = false;
     notifyListeners();
+  }
+
+  Future getEnabledTrips() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    String? enabledStr = sp.getString('enabledTrips');
+    if (enabledStr != null) {
+      _enabledTrips = jsonDecode(enabledStr);
+    } else {
+      _enabledTrips = {};
+    }
+    notifyListeners();
+  }
+
+  Future setEnabledTrips() async {
+    final SharedPreferences sp = await SharedPreferences.getInstance();
+    Map<String, bool> temp = {
+      'all': false,
+      'TR002': true,
+      'TR005': true,
+      'TR007': true,
+    };
+    String enabledStr = jsonEncode(temp);
+    sp.setString('enabledTrips', enabledStr);
+    _enabledTrips = temp;
+    print('_enabledTrips set');
+    print(_enabledTrips);
+    notifyListeners();
+  }
+
+  bool isEnabled(String tripCode) {
+    return _enabledTrips[tripCode] != null && _enabledTrips[tripCode] == true;
   }
 }

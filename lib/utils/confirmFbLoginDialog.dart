@@ -38,27 +38,51 @@ Future<Future> showFBConfirmDialog(
               ],
             )
           : AlertDialog(
-              /* title: const Text("Confirm"), */
-              content: const Text("Facebook-ээр нэвтрэх үү?"),
+              content: SizedBox(
+                height: 50,
+                width: MediaQuery.of(context).size.width * 0.80,
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(true);
+                      sb.signInwithFacebook().then((_) {
+                        if (next != null) {
+                          next();
+                        }
+                      });
+                    },
+                    style: ButtonStyle(
+                        backgroundColor: MaterialStateProperty.resolveWith(
+                            (states) => Colors.indigo),
+                        shape: MaterialStateProperty.resolveWith((states) =>
+                            RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5)))),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(
+                          Icons.facebook,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Text(
+                          'Facebook-ээр нэвтрэх',
+                          style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white),
+                        )
+                      ],
+                    )),
+              ),
               actions: <Widget>[
                 TextButton(
                   style: flatButtonStyle,
                   child: const Text("Болих"),
                   onPressed: () {
                     Navigator.of(context).pop(false);
-                  },
-                ),
-                TextButton(
-                  style: flatButtonStyle,
-                  child: const Text("Нэвтрэх"),
-                  onPressed: () async {
-                    Navigator.of(context).pop(true);
-                    sb.signInwithFacebook().then((_) {
-                      if (next != null) {
-                        print('### callback should be called ###');
-                        next();
-                      }
-                    });
                   },
                 ),
               ],

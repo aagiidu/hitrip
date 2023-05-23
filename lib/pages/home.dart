@@ -1,9 +1,15 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:hitrip/pages/places.dart';
 import 'package:hitrip/pages/zarlist.dart';
+import 'package:line_icons/line_icons.dart';
 import '../services/app_services.dart';
+import '../utils/next_screen.dart';
 import '../utils/snackbar.dart';
+import '../widgets/header.dart';
+import 'aimags.dart';
+import 'blogs.dart';
 import 'explore.dart';
 import 'trips.dart';
 
@@ -62,6 +68,187 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Column mainContainer() {
+    return Column(
+      children: [
+        const Header(showSearch: true),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            padding: const EdgeInsets.only(top: 10, bottom: 10),
+            child: GridView.count(
+              padding: const EdgeInsets.all(0),
+              mainAxisSpacing: 10,
+              crossAxisSpacing: 10,
+              crossAxisCount: 2,
+              childAspectRatio: 1.4,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: <Widget>[
+                InkWell(
+                  child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.blueAccent[400]!,
+                                        offset: const Offset(5, 5),
+                                        blurRadius: 2)
+                                  ]),
+                              child: const Icon(
+                                LineIcons.road,
+                                size: 30,
+                              ),
+                            ),
+                            const Text(
+                              'Аялалууд',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                          ])),
+                  onTap: () => onTabTapped(1), // bloc-oor damjuulah!
+                ),
+                InkWell(
+                  onTap: () => nextScreen(context, Places()),
+                  child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.green,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.green[400]!,
+                                        offset: const Offset(5, 5),
+                                        blurRadius: 2)
+                                  ]),
+                              child: const Icon(
+                                LineIcons.mountain,
+                                size: 30,
+                              ),
+                            ),
+                            const Text(
+                              'Зорих газрууд',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                          ])),
+                ),
+                InkWell(
+                    onTap: null,
+                    child: Container(
+                        padding: const EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          color: Colors.orangeAccent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: <Widget>[
+                              Container(
+                                height: 50,
+                                width: 50,
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.white,
+                                    boxShadow: <BoxShadow>[
+                                      BoxShadow(
+                                          color: Colors.orangeAccent[400]!,
+                                          offset: const Offset(5, 5),
+                                          blurRadius: 2)
+                                    ]),
+                                child: const Icon(
+                                  Icons.location_city,
+                                  size: 30,
+                                ),
+                              ),
+                              const Text(
+                                'City Tour',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 15),
+                              ),
+                            ])) /* () => nextScreen(
+                            context,
+                            RestaurantPage(
+                              placeData: null,
+                            )), */
+                    ),
+                InkWell(
+                  onTap: () => nextScreen(context, AimagPage()),
+                  child: Container(
+                      padding: const EdgeInsets.all(15),
+                      decoration: BoxDecoration(
+                        color: Colors.pinkAccent,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              height: 50,
+                              width: 50,
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.white,
+                                  boxShadow: <BoxShadow>[
+                                    BoxShadow(
+                                        color: Colors.pinkAccent[400]!,
+                                        offset: const Offset(5, 5),
+                                        blurRadius: 2)
+                                  ]),
+                              child: const Icon(
+                                Icons.bookmark_outline,
+                                size: 30,
+                              ),
+                            ),
+                            const Text(
+                              'Аймаг сумдын мэдээлэл',
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 15),
+                            ),
+                          ])),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -96,9 +283,9 @@ class _HomePageState extends State<HomePage> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: <Widget>[
-            const Explore(),
+            mainContainer(), // const Explore(),
             TripsPage(),
-            Container(),
+            const BlogPage(),
             const ZarList(),
           ],
         ),

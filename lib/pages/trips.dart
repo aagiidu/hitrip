@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:hitrip/blocs/sign_in_block.dart';
+import 'package:provider/provider.dart';
 import '../models/trip.dart';
 import '../services/data_services.dart';
 import '../widgets/header.dart';
 import '../widgets/trip_image_card.dart';
 
 class TripsPage extends StatefulWidget {
-  TripsPage({Key? key}) : super(key: key);
+  final bool showBack;
+  TripsPage({Key? key, this.showBack = false}) : super(key: key);
 
   @override
   _TripsPageState createState() => _TripsPageState();
@@ -33,7 +36,8 @@ class _TripsPageState extends State<TripsPage>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
+    SignInBloc sb = context.read<SignInBloc>();
+    Map<String, bool> enabled = sb.enabledTrips;
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -53,6 +57,8 @@ class _TripsPageState extends State<TripsPage>
                 itemBuilder: (BuildContext context, int index) {
                   return TripImageCard(
                     d: trips[index],
+                    enabled: enabled[trips[index].code] != null &&
+                        enabled[trips[index].code] == true,
                   );
                 },
               ), /* ListView.separated(

@@ -1,11 +1,15 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:hitrip/blocs/sign_in_block.dart';
+import 'package:hitrip/pages/subscription.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 import '../config/config.dart';
 import '../data/constants.dart';
 import '../models/place.dart';
 import '../models/trip.dart';
 import '../services/data_services.dart';
+import '../utils/next_screen.dart';
 import '../widgets/custom_cache_image.dart';
 import '../widgets/place_items.dart';
 
@@ -34,6 +38,8 @@ class _TripDetailsState extends State<TripDetails> {
 
   @override
   Widget build(BuildContext context) {
+    SignInBloc sb = context.read<SignInBloc>();
+    bool enabled = sb.isEnabled(trip.code);
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
@@ -101,55 +107,56 @@ class _TripDetailsState extends State<TripDetails> {
                 ],
               ),
             ),
-            /*  sb.isSignedIn == false
+            !enabled
                 ? Container(
+                    padding: const EdgeInsets.symmetric(vertical: 20),
                     alignment: Alignment.center,
+                    color: Colors.green[300],
                     child: Column(
                       children: [
-                        const Text('Дэлгэрэнгүй үзэхийн тулд нэвтэрч орно уу'),
+                        const Text(
+                            'Дэлгэрэнгүй үзэхийн тулд эрхээ идэвхижүүлнэ үү'),
                         const SizedBox(height: 8),
+                        const Text("₮9'800"),
                         TextButton(
                           style: ButtonStyle(
                             padding: MaterialStateProperty.all<EdgeInsets>(
                                 const EdgeInsets.symmetric(horizontal: 20)),
                             backgroundColor: MaterialStateProperty.resolveWith(
-                                (states) => Theme.of(context).primaryColor),
+                                (states) => Colors.green),
                           ),
+                          onPressed: () => nextScreenPopup(
+                              context,
+                              Subsciption(
+                                selectedTrip: trip,
+                              )),
                           child: const Text(
-                            'Нэвтрэх',
+                            'Идэвхижүүлэх',
                             style: TextStyle(color: Colors.white),
                           ),
-                          onPressed:
-                              null /* () => nextScreenPopup(
-                              context,
-                              SignInPage(
-                                tag: 'popup',
-                              )) */
-                          ,
                         ),
                       ],
                     ),
                   )
-                :  */
-            Column(
-              children: [
-                Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          const Text(
-                            'Үндсэн маршрут: ',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15,
-                            ),
-                          ),
-                          Text(trip.marshrut!),
-                        ])),
-                PlaceItems(trip: trip),
-              ],
-            ),
+                : Column(
+                    children: [
+                      Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: <Widget>[
+                                const Text(
+                                  'Үндсэн маршрут: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 15,
+                                  ),
+                                ),
+                                Text(trip.marshrut!),
+                              ])),
+                      PlaceItems(trip: trip),
+                    ],
+                  ),
             const SizedBox(height: 20)
           ],
         ),

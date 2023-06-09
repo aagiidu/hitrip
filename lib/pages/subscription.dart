@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:hitrip/blocs/sign_in_block.dart';
+import 'package:hitrip/models/bank.dart';
 import 'package:hitrip/models/trip.dart';
+import 'package:hitrip/pages/bank_list.dart';
 import 'package:provider/provider.dart';
 
+import '../services/app_services.dart';
 import '../utils/confirmFbLoginDialog.dart';
+import '../utils/next_screen.dart';
 
 class Subsciption extends StatefulWidget {
   final TripModel? selectedTrip;
@@ -15,13 +17,14 @@ class Subsciption extends StatefulWidget {
   State<Subsciption> createState() => _SubsciptionState();
 }
 
-class _SubsciptionState extends State<Subsciption>
-    with AutomaticKeepAliveClientMixin {
+class _SubsciptionState extends State<Subsciption> {
   late bool sel;
   late TripModel? trip;
   late SignInBloc sb;
-  late String payType;
+  late String tripCode;
+  String invoiceId = '';
   late int amount;
+  List<Bank> banks = [];
 
   @override
   void initState() {
@@ -34,22 +37,47 @@ class _SubsciptionState extends State<Subsciption>
   }
 
   Future<void> activationStart(BuildContext context) async {
-    Navigator.pop(context);
     if (!sb.isSignedIn) {
-      showFBConfirmDialog(context, sb, proceedPayment);
+      showFBConfirmDialog(context, sb, () => proceedPayment(context));
     } else {
-      proceedPayment();
+      proceedPayment(context);
     }
   }
 
-  Future<void> proceedPayment() async {
+  Future<void> proceedPayment(BuildContext ctx) async {
     // invoice create api call
+    Map<String, dynamic> data = {"tripCode": tripCode, "amount": amount};
+    try {
+      final response = await AppService().postReq('user/request/invoice', data);
+      if (response != null && response.data['status'] == 'success') {
+        List<dynamic> urls = response.data['data']['urls'];
+        List<Bank> temp = urls.map((b) => Bank.fromJson(b)).toList();
+        setState(() {
+          invoiceId = response.data['data']['invoice_id'];
+          banks = temp;
+        });
+        // ignore: use_build_context_synchronously
+        var back = await nextScreen(ctx, BankList(banks: banks));
+        if (back != null) {
+          print('###### back ######');
+          print(back);
+          // check payment. Geree hiisnii daraa ashuglana
+          /* final response =
+              await AppService().getReq('payment/check/$invoiceId');
+          if (response != null && response.data['status'] == 'success') {
+            print('### Payment Check ###');
+            print(response.data);
+          } */
+        }
+      }
+    } catch (e) {
+      print('Qpay error');
+      print(e.toString());
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Scaffold(
       appBar: AppBar(title: const Text('Аялал идэвхижүүлэх')),
       body: Padding(
@@ -100,7 +128,7 @@ class _SubsciptionState extends State<Subsciption>
                           ),
                           onPressed: () {
                             setState(() {
-                              payType = 'one';
+                              tripCode = trip!.code;
                               amount = 9800;
                             });
                             activationStart(context);
@@ -158,7 +186,7 @@ class _SubsciptionState extends State<Subsciption>
                     ),
                     onPressed: () {
                       setState(() {
-                        payType = 'all';
+                        tripCode = 'all';
                         amount = 98000;
                       });
                       activationStart(context);
@@ -176,8 +204,4 @@ class _SubsciptionState extends State<Subsciption>
       ),
     );
   }
-
-  @override
-  // TODO: implement wantKeepAlive
-  bool get wantKeepAlive => throw UnimplementedError();
 }

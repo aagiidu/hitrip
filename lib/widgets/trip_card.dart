@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../data/constants.dart';
 import '../models/trip.dart';
 import '../pages/trip_detail.dart';
 import '../utils/next_screen.dart';
@@ -100,7 +101,9 @@ class TripCard extends StatelessWidget {
                     width: 120,
                     child: ClipRRect(
                         borderRadius: BorderRadius.circular(5),
-                        child: CustomCacheImage(imageUrl: d!.thumbnailUrl))),
+                        child: CustomCacheImage(
+                            imageUrl:
+                                "${Constants.serverUrl}/photos/trip/${d!.code}_1.jpg"))),
               ))
         ],
       ),

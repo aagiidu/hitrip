@@ -195,7 +195,7 @@ class SignInBloc extends ChangeNotifier {
   Future setEnabledTrips() async {
     final SharedPreferences sp = await SharedPreferences.getInstance();
     Map<String, bool> temp = {
-      'all': false,
+      'all': true,
       'TR002': true,
       'TR005': true,
       'TR007': true,
@@ -209,6 +209,8 @@ class SignInBloc extends ChangeNotifier {
   }
 
   bool isEnabled(String tripCode) {
-    return _enabledTrips[tripCode] != null && _enabledTrips[tripCode] == true;
+    return (_enabledTrips[tripCode] != null &&
+            _enabledTrips[tripCode] == true) ||
+        _enabledTrips['all'] == true;
   }
 }

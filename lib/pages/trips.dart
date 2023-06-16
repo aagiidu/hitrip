@@ -57,8 +57,11 @@ class _TripsPageState extends State<TripsPage>
                 itemBuilder: (BuildContext context, int index) {
                   return TripImageCard(
                     d: trips[index],
-                    enabled: enabled[trips[index].code] != null &&
-                        enabled[trips[index].code] == true,
+                    enabled:
+                        true /* (enabled[trips[index].code] != null &&
+                            enabled[trips[index].code] == true) ||
+                        enabled['all'] == true */
+                    ,
                   );
                 },
               ), /* ListView.separated(

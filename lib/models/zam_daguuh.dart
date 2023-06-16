@@ -12,6 +12,7 @@ class ZamDaguuh {
   String? desc;
   String? image;
   bool? hasLocation;
+  List? images;
   String? description;
 
   ZamDaguuh(
@@ -24,6 +25,7 @@ class ZamDaguuh {
       this.longitude,
       this.coordinate,
       this.image,
+      this.images,
       this.desc,
       this.hasLocation,
       this.description});
@@ -41,6 +43,7 @@ class ZamDaguuh {
     longitude = json['longitude'].toDouble();
     coordinate = json['coordinate'];
     image = json['image'] == '' ? defaultImg : json['image'];
+    images = json['image'] == '' ? [defaultImg] : [json['image']];
     desc = json['desc'];
     hasLocation = locOk;
     description = '--';

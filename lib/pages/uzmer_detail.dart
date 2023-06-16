@@ -1,5 +1,6 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:hitrip/models/zam_daguuh.dart';
 import 'package:line_icons/line_icons.dart';
 import '../data/constants.dart';
 import '../models/zorih_uzmer.dart';
@@ -10,9 +11,14 @@ class UzmerDetails extends StatefulWidget {
   final dynamic data;
   final String? tag;
   final bool? isPanel;
+  final String? dType;
 
   const UzmerDetails(
-      {Key? key, required this.data, required this.tag, this.isPanel})
+      {Key? key,
+      required this.data,
+      required this.tag,
+      this.isPanel,
+      this.dType})
       : super(key: key);
 
   @override
@@ -20,6 +26,16 @@ class UzmerDetails extends StatefulWidget {
 }
 
 class _UzmerDetailsState extends State<UzmerDetails> {
+  dynamic data;
+
+  @override
+  void initState() {
+    data = widget.dType == 'ZorihUzmer'
+        ? widget.data as ZorihUzmer
+        : widget.data as ZamDaguuh;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     //final SignInBloc sb = context.watch<SignInBloc>();
@@ -35,7 +51,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
                 widget.tag == null
                     ? _slidableImages()
                     : Hero(
-                        tag: widget.data!.code,
+                        tag: data.code,
                         child: _slidableImages(),
                       ),
                 widget.isPanel == false
@@ -59,7 +75,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
                         ),
                       )
                     : Container(),
-                widget.data!.hasLocation! && widget.isPanel == false
+                data.hasLocation! && widget.isPanel == false
                     ? Positioned(
                         bottom: 5,
                         right: 5,
@@ -111,7 +127,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(widget.data!.name!,
+                        Text(data.name!,
                             style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w900,
@@ -150,7 +166,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
                     ),
                   )
                 : Container(),
-            widget.data!.hasLocation!
+            data.hasLocation!
                 ? Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: TextButton(
@@ -174,7 +190,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
                             ),
                             const SizedBox(width: 5),
                             Text(
-                              widget.data!.coordinate!,
+                              data.coordinate!,
                               style: const TextStyle(
                                   fontWeight: FontWeight.w600, fontSize: 15),
                             ),
@@ -184,7 +200,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
                 : Container(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Text(widget.data!
+              child: Text(data
                   .description!), /* HtmlBodyWidget(
                 content: widget.data!.description!,
                 isIframeVideoEnabled: true,
@@ -201,6 +217,10 @@ class _UzmerDetailsState extends State<UzmerDetails> {
   }
 
   Container _slidableImages() {
+    List<Widget> images = (data.images as List)
+        .map((img) =>
+            CustomCacheImage(imageUrl: "${Constants.serverUrl}/photos/$img"))
+        .toList();
     return Container(
       color: Colors.white,
       child: Container(
@@ -215,13 +235,7 @@ class _UzmerDetailsState extends State<UzmerDetails> {
           dotSize: 5,
           dotSpacing: 15,
           boxFit: BoxFit.cover,
-          images: widget.data.images!.length == 0
-              ? [const CustomCacheImage(imageUrl: Constants.defaultImg)]
-              : (widget.data as ZorihUzmer)
-                  .images!
-                  .map((img) => CustomCacheImage(
-                      imageUrl: "${Constants.serverUrl}/photos/$img"))
-                  .toList(),
+          images: images,
         ),
       ),
     );

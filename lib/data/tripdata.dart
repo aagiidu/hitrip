@@ -11961,6 +11961,7 @@ const List<Map<String, dynamic>> ZAMDAGUUH = [
     "image": "Elsen_tasarhai.jpg"
   }
 ];
+
 const List<Map<String, dynamic>> AIMAGSUM = [
   {
     "id": "a01",

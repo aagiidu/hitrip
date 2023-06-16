@@ -258,6 +258,7 @@ class _GmapState extends State<Gmap> {
                     data: selectedUzmer,
                     tag: selectedUzmer.code!,
                     isPanel: true,
+                    dType: 'ZorihUzmer',
                   )),
       ],
     );

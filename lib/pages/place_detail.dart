@@ -1,5 +1,6 @@
 import 'package:carousel_pro_nullsafety/carousel_pro_nullsafety.dart';
 import 'package:flutter/material.dart';
+import 'package:hitrip/pages/gmap.dart';
 import 'package:line_icons/line_icons.dart';
 import '../models/place.dart';
 import '../models/trip.dart';
@@ -76,19 +77,17 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                         ),
                       )
                     : Container(),
-                widget.isPanel == false
+                /* widget.isPanel == false
                     ? Positioned(
                         bottom: 5,
                         right: 5,
                         child: InkWell(
-                          onTap:
-                              null /* () => nextScreen(
+                          onTap: () => nextScreen(
                               context,
                               LocationPage(
                                   name: widget.data.name!,
                                   lat: widget.data.latitude!,
-                                  lng: widget.data.longitude!)) */
-                          ,
+                                  lng: widget.data.longitude!)),
                           child: Container(
                               padding: const EdgeInsets.symmetric(
                                   horizontal: 15, vertical: 5),
@@ -118,7 +117,7 @@ class _PlaceDetailsState extends State<PlaceDetails> {
                                   ])),
                         ),
                       )
-                    : Container()
+                    : Container() */
               ],
             ),
             widget.isPanel == false

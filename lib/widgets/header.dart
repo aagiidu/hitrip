@@ -21,9 +21,9 @@ class _HeaderState extends State<Header> {
   @override
   void initState() {
     super.initState();
-    /* Future.delayed(const Duration(milliseconds: 0)).then((value) {
-      sb.checkSignIn();
-    }); */
+    Future.delayed(const Duration(milliseconds: 0)).then((value) {
+      sb.setEnabledTrips();
+    });
   }
 
   @override

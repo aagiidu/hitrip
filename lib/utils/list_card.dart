@@ -379,6 +379,7 @@ class UzmerCard extends StatelessWidget {
             data: d,
             tag: d!.code!,
             isPanel: false,
+            dType: 'ZorihUzmer',
           )),
     );
   }
@@ -510,6 +511,7 @@ class ZamDaguuhCard extends StatelessWidget {
             data: d,
             tag: d!.id.toString(),
             isPanel: false,
+            dType: 'ZamDaguuh',
           )),
     );
   }

@@ -45,7 +45,7 @@
         <!--Google Map API Key-->
         <meta-data 
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBgJaEbK0r4EuQoPIKStAPfmbm3xTqZ7-E"/>
+            android:value="xxx"/>
 
         <!-- Facebook Sign In -->
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>

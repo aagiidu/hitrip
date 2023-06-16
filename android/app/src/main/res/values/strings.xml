@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>  
 <resources>
-
-   <!-- Replace with your App Name -->
    <string name="app_name">Hi Trip</string>
-
-   <!-- Replace "193186341991913" with your Facebook App ID here. -->  
-   <string name="facebook_app_id">554126342869369</string>
-   <string name="facebook_client_token">cffefeb3c627402d60ed3598a60f4587</string>
-
-   <!--
-      Replace "193186341991913" with your Facebook App ID here.
-      **NOTE**: The scheme needs to start with `fb` and then your ID.
-    -->
-   <string name="fb_login_protocol_scheme">fb554126342869369</string>  
+   <string name="facebook_app_id">xxx</string>
+   <string name="facebook_client_token">xxx</string>
+   <string name="fb_login_protocol_scheme">xxx</string>  
 </resources>
